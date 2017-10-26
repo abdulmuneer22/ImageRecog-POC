@@ -4,7 +4,11 @@ import Button from '../../components/Button'
 
 let picturePlaceHolder = require('../../../assets/images/pictures.png')
 import Gallery from '../../components/Gallery'
-export class FaceIdModule extends Component {
+import { connect } from 'react-redux';
+import {RecongniseImage} from '../../../redux/actions'
+
+
+class FaceIdModule extends Component {
 
   constructor(){
     super();
@@ -19,6 +23,10 @@ export class FaceIdModule extends Component {
       ModalVisible : false,
       image
     })
+  }
+
+  _onUpload = () => {
+    this.props.identifyImage(this.state.image)
   }
 
   render() {
@@ -53,6 +61,7 @@ export class FaceIdModule extends Component {
 
           <Button
           label = "Upload"
+          onPress = {this._onUpload}
           />
 
           <Button
@@ -77,4 +86,12 @@ export class FaceIdModule extends Component {
   }
 }
 
-export default FaceIdModule
+  
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    identifyImage: (image) => dispatch(RecongniseImage(image)),
+  }
+}
+
+export default connect(null,mapDispatchToProps)(FaceIdModule)
